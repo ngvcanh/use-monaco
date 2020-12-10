@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  useMonacoEditor,
-  typings,
-  prettier,
-  useEditor,
-  useTextModel,
-} from '../src';
+import { useMonacoEditor, useEditor, useTextModel } from '../src';
 import themes from '../src/themes';
+
+import { typings, prettier } from '../src/plugins';
 
 const defaultValue = `<body>
 <div id="root"></div>
