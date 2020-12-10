@@ -2,88 +2,28 @@ import React from 'react';
 import { useMonacoEditor, useEditor, useTextModel } from '../src';
 import themes from '../src/themes';
 
-import { typings, prettier } from '../src/plugins';
-
-const defaultValue = `<body>
-<div id="root"></div>
-<script defer type="module">
-  import {
-    useMonacoEditor,
-    prettier,
-  } from 'https://cdn.pika.dev/use-monaco@0.0.3';
-  import themes from 'https://cdn.pika.dev/use-monaco@0.0.3/themes';
-  import * as React from 'https://cdn.pika.dev/react';
-  import ReactDOM from 'https://cdn.pika.dev/react-dom';
-  import htm from 'https://cdn.pika.dev/htm';
-  const html = htm.bind(React.createElement);
-
-  let Editor = () => {
-    const { containerRef, monaco, model, loading } = useMonacoEditor({
-      plugins: [prettier(['graphq'])],
-      themes,
-      theme: 'github',
-      path: 'model.graphql',
-      defaultValue: ['type Query {}'].join('\\n'),
-    });
-
-    return html\`<div
-      ref=\${containerRef}
-      style=\${{ height: 800, width: 600 }}
-    />\`;
-  };
-
-  ReactDOM.render(html\`<\${Editor} />\`, document.getElementById('root'));
-</script>
-</body>
-`;
-
-const otherDefaultValue = `<body>
-<div id="root"></div>
-<script defer type="module">
-  import {
-    useMonacoEditor,
-    prettier,
-  } from 'https://cdn.pika.dev/use-monaco@0.0.3';
-  import themes from 'https://cdn.pika.dev/use-monaco@0.0.3/themes';
-  import * as React from 'https://cdn.pika.dev/react';
-  import ReactDOM from 'https://cdn.pika.dev/react-dom';
-  import htm from 'https://cdn.pika.dev/htm';
-  const html = htm.bind(React.createElement);
-
-  let Editor = () => {
-    const { monaco, loading } = useMonaco({
-      plugins: [prettier(['graphql'])],
-      themes,
-      theme: 'github',
-    });
-
-    const model = useTextModel({
-      path: 'model.graphql',
-      defaultValue: ['type Query {}'].join('\n'),
-    });
-    const { containerRef } = useEditor({ monaco, model });
-
-    return html\`<div
-      ref=\${containerRef}
-      style=\${{ height: 800, width: 600 }}
-    />\`;
-  };
-
-  ReactDOM.render(html\`<\${Editor} />\`, document.getElementById('root'));
-</script>
-</body>
-`;
+import { typings, prettier, graphql } from '../src/plugins';
 
 let Editor = () => {
   const { containerRef, monaco, loading } = useMonacoEditor({
     paths: {
-      vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs',
+      monaco: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.21.2/min/vs',
+      workers: 'http://localhost:3000/workers/',
     },
     themes: themes as any,
-    plugins: [prettier(['html']), typings()],
-    path: 'index.html',
-    language: 'html',
-    defaultValue,
+    plugins: [
+      prettier(['graphql']),
+      typings(),
+      graphql({
+        uri: 'https://swapi-graphql.netlify.app/.netlify/functions/index',
+      }),
+    ],
+    defaultValue: `
+    query { allFilms { edges { node { id }}} }
+    
+    `,
+    path: 'index2.graphql',
+    language: 'graphql',
     theme: 'vs-light',
     // editorDidMount: (editor, monaco) => {
     //   monaco.languages.typescript.loadTypes('faunadb', '2.13.0');
@@ -91,16 +31,17 @@ let Editor = () => {
     // },
   });
 
-  const model = useTextModel({
-    defaultValue: otherDefaultValue,
-    path: 'index2.html',
-    monaco,
-  });
+  // const model = useTextModel({
+  //   defaultValue: `query { allFilms { edges { node { id }}} }`,
+  //   path: 'index2.graphql',
+  //   language: 'graphql',
+  //   monaco,
+  // });
 
-  const { containerRef: editorRef } = useEditor({
-    monaco,
-    model,
-  });
+  // const { containerRef: editorRef } = useEditor({
+  //   monaco,
+  //   model,
+  // });
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -128,8 +69,8 @@ let Editor = () => {
         </a>
       </pre>
       <div style={{ display: 'flex', flex: 1 }}>
-        <div ref={containerRef} style={{ width: '50vw', height: '100%' }} />
-        <div ref={editorRef} style={{ width: '50vw', height: '100%' }} />
+        <div ref={containerRef} style={{ width: '100vw', height: '100%' }} />
+        {/* <div ref={editorRef} style={{ width: '50vw', height: '100%' }} /> */}
       </div>
     </div>
   );

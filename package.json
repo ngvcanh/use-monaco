@@ -1,7 +1,7 @@
 {
   "version": "0.0.4",
   "license": "MIT",
-  "main": "./dist/cjs/production/use-monaco.js",
+  "main": "./dist/use-monaco.js",
   "scripts": {
     "start": "next",
     "clean": "rm -rf dist",
@@ -35,33 +35,42 @@
     "web-editor",
     "react-monaco-editor"
   ],
+  "browserslist": [
+    "Last 5 Chrome version"
+  ],
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "@types/node": "^14.0.6",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "comlink": "^4.3.0",
+    "graphql": "^15.4.0",
     "hasha": "^5.2.0",
     "husky": "^4.2.5",
     "isomorphic-unfetch": "^3.0.0",
+    "monaco-graphql": "^0.3.3",
     "next": "^9.4.2",
     "parcel-bundler": "^1.12.4",
+    "path-browserify": "^1.0.1",
     "pkger": "^0.0.2",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "shellac": "^0.2.0",
     "tslib": "^2.0.0",
     "tsup": "^3.10.1",
     "typescript": "^4.1.2"
   },
   "dependencies": {
+    "esbuild": "^0.8.21",
+    "graphiql-playground": "https://gist.github.com/nksaraf/02f2e67cdd500bd4c92a6a30674f55ba.git",
     "idb-keyval": "^3.2.0",
     "monaco-editor": "^0.21.2",
+    "parcel-plugin-bundle-visualiser": "^1.2.0",
     "use-debounce": "^3.4.2",
     "use-deep-compare-effect": "^1.3.1"
   },
   "module": "./dist/esm/use-monaco.js",
-  "browser": "./dist/esm/use-monaco.js",
   "types": "dist/types",
   "exports": {
     ".": {
@@ -95,10 +104,14 @@
     "./package.json": "./package.json",
     "./": "./"
   },
+  "browser": {
+    "path": "path-browserify"
+  },
   "files": [
     "dist",
     "worker",
     "themes",
+    "public/workers",
     "plugins",
     "README.md"
   ]
