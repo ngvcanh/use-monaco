@@ -3,5 +3,9 @@
   "private": true,
   "main": "../dist/worker.js",
   "module": "../dist/esm/worker.js",
+<<<<<<< HEAD
   "types": "../dist/types/worker"
+=======
+  "types": "../dist/types/worker.d.ts"
+>>>>>>> slow
 }

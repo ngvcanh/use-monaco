@@ -3,5 +3,9 @@
   "private": true,
   "main": "../dist/themes.js",
   "module": "../dist/esm/themes.js",
+<<<<<<< HEAD
   "types": "../dist/types/themes"
+=======
+  "types": "../dist/types/themes.d.ts"
+>>>>>>> slow
 }
